@@ -49,7 +49,7 @@
 
     <!-- 配置扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.facebank.mmc.mapper.read"/>
+        <property name="basePackage" value="cn.javadevelop.jdt.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryJobRead"/>
     </bean>
 
@@ -93,13 +93,13 @@
     </bean>
 
     <!-- 写不能用自动扫描，自动扫描事务不起作用 -->
-    <bean id="mmcWriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="cn.facebank.mmc.mapper.write.MmcWriteMapper"></property>
-        <property name="sqlSessionFactory" ref="sqlSessionFactoryJobWrite"></property>
-    </bean>
+    <!--<bean id="mmcWriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--<property name="mapperInterface" value="cn.javadevelop.jdt.mapper"></property>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactoryJobWrite"></property>-->
+    <!--</bean>-->
 
-    <bean id="mmcReadMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="cn.facebank.mmc.mapper.read.MmcReadMapper"></property>
-        <property name="sqlSessionFactory" ref="sqlSessionFactoryJobRead"></property>
-    </bean>
+    <!--<bean id="mmcReadMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--<property name="mapperInterface" value="cn.facebank.mmc.mapper.read.MmcReadMapper"></property>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactoryJobRead"></property>-->
+    <!--</bean>-->
 </beans>
