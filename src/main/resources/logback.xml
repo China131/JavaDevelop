@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- ==================================================================== -->
+<!-- This config file is intended to be used by a SocketServer that logs -->
+<!-- events received from various clients on the console and to a file -->
+<!-- that is rolled over when appropriate. The interesting point to note -->
+<!-- is that it is a configuration file like any other. -->
+<!-- ==================================================================== -->
+
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder charset="UTF-8">
+            <pattern>%date %-5level [%thread] %logger - %message%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+
+    </appender>
+
+    <appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/logs/jdt/jdt_debug.log</file>
+        <encoder>
+            <pattern>{"@timestamp":"%date","level":"%-5level",%message,"logger":"%logger:%L","thread":"[%thread]"}%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/logs/jdt/jdt_debug.log_%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <logger name="cn.facebank.jdt.mapper" level="DEBUG" additivity="false">
+            <appender-ref ref="DEBUG"/>
+        </logger>
+        <!-- 打印所有自定义需要输出的DEBUG级别日志，需要在类中声明private static final Logger loggerDebug = LoggerFactory.getLogger("loggerDebug");后使用 -->
+        <logger name="loggerDebug" level="DEBUG" additivity="false">
+            <appender-ref ref="DEBUG"/>
+        </logger>
+        <root>
+            <level value="debug" />
+            <appender-ref ref="CONSOLE" />
+            <!-- 	    <appender-ref ref="DEBUG" /> -->
+            <appender-ref ref="INFO" />
+            <appender-ref ref="ERROR" />
+        </root>
+    </appender>
+
+    <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>{"@timestamp":"%date","level":"%-5level",%message,"logger":"%logger:%L","thread":"[%thread]"}%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+        <file>/data/logs/jdt/jdt_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/logs/jdt/jdt_info.log_%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/logs/jdt/jdt_error.log</file>
+        <encoder>
+            <pattern>{"@timestamp":"%date","level":"%-5level",%message,"logger":"%logger:%L","thread":"[%thread]"}%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/logs/jdt/jdt_error.log_%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="MONITOR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/data/logs/jdt/jdt_monitor.log</file>
+        <encoder>
+            <pattern>{"@timestamp":"%date",%message}%n</pattern>
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/data/logs/jdt/jdt_monitor.log_%d{yyyyMMdd}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="org.springframework.session.web.http.SessionRepositoryFilter" level="INFO"></logger>
+    <logger name="org.springframework.data.redis.core.RedisConnectionUtils" level="INFO"></logger>
+    <logger name="org.springframework.scheduling">
+        <level value="info" />
+    </logger>
+    <root>
+        <level value="debug" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="DEBUG" />
+        <appender-ref ref="INFO" />
+        <appender-ref ref="ERROR" />
+    </root>
+
+    <logger name="com.caucho.hessian.server" level="DEBUG" additivity="false">
+        <appender-ref ref="MONITOR"/>
+    </logger>
+    <logger name="cn.facebank.common.preffilter" level="DEBUG" additivity="false">
+        <appender-ref ref="MONITOR"/>
+    </logger>
+</configuration>
