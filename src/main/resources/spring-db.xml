@@ -49,7 +49,7 @@
 
     <!-- 配置扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.javadevelop.jdt.mapper"/>
+        <property name="basePackage" value="cn.javadevelop.jdt.mapper.read.TestReadMapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryJobRead"/>
     </bean>
 
@@ -86,11 +86,11 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManagerJobWrite"/>
     <!--<bean id="taskScheduler" class="org.springframework.scheduling.TaskScheduler"></bean>-->
-    <bean id="sqlSessionFactoryJobWrite" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dsJobWrite"/>
-        <property name="configLocation" value="classpath:mybatis-job-write.xml"/>
-        <!--<property name="typeAliasesPackage" value="cn.facebank.model"/>-->
-    </bean>
+    <!--<bean id="sqlSessionFactoryJobWrite" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dsJobWrite"/>-->
+        <!--<property name="configLocation" value="classpath:mybatis-job-write.xml"/>-->
+        <!--&lt;!&ndash;<property name="typeAliasesPackage" value="cn.facebank.model"/>&ndash;&gt;-->
+    <!--</bean>-->
 
     <!-- 写不能用自动扫描，自动扫描事务不起作用 -->
     <!--<bean id="mmcWriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
@@ -98,8 +98,8 @@
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactoryJobWrite"></property>-->
     <!--</bean>-->
 
-    <!--<bean id="mmcReadMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
-        <!--<property name="mapperInterface" value="cn.facebank.mmc.mapper.read.MmcReadMapper"></property>-->
-        <!--<property name="sqlSessionFactory" ref="sqlSessionFactoryJobRead"></property>-->
-    <!--</bean>-->
+    <bean id="mmcReadMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.javadevelop.jdt.mapper.read.TestReadMapper"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryJobRead"></property>
+    </bean>
 </beans>

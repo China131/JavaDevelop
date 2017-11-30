@@ -6,7 +6,11 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            classpath:spring.xml
+            classpath:spring.xml,
+            classpath:spring-mvc.xml,
+            classpath:spring-common.xml,
+            classpath:spring-session.xml,
+            classpath:spring-db.xml
         </param-value>
     </context-param>
 
@@ -20,7 +24,7 @@
     </filter>
     <filter-mapping>
         <filter-name>springSessionRepositoryFilter</filter-name>
-        <url-pattern>/message/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </filter-mapping>
 
 
