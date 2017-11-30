@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+     http://www.springframework.org/schema/tx
+	 http://www.springframework.org/schema/tx/spring-tx-4.3.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder
+            ignore-unresolvable="true" file-encoding="UTF-8"
+            location="classpath*:readonly-jdbc.properties"/>
+
+    <context:property-placeholder
+            ignore-unresolvable="true" file-encoding="UTF-8"
+            location="classpath*:writable-jdbc.properties"/>
+
+    <!-- 读数据源配置，采用jndi是为了不在配置文件里写数据库连接信息，增加数据库安全性 -->
+    <bean id="dsJobRead" class="org.apache.tomcat.jdbc.pool.DataSource"
+          destroy-method="close">
+        <property name="testWhileIdle" value="${read.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${read.testOnBorrow}"/>
+        <property name="testOnReturn" value="${read.testOnReturn}"/>
+        <property name="validationQuery" value="${read.validationQuery}"/>
+        <property name="validationInterval" value="${read.validationInterval}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${read.timeBetweenEvictionRunsMillis}"/>
+        <property name="maxActive" value="${read.maxActive}"/>
+        <property name="minIdle" value="${read.minIdle}"/>
+        <property name="maxWait" value="${read.maxWait}"/>
+        <property name="initialSize" value="${read.initialSize}"/>
+        <property name="removeAbandonedTimeout" value="${read.removeAbandonedTimeout}"/>
+        <property name="removeAbandoned" value="${read.removeAbandoned}"/>
+        <property name="logAbandoned" value="${read.logAbandoned}"/>
+        <property name="minEvictableIdleTimeMillis" value="${read.minEvictableIdleTimeMillis}"/>
+        <property name="jmxEnabled" value="${read.jmxEnabled}"/>
+        <property name="fairQueue" value="${read.fairQueue}"/>
+        <property name="jdbcInterceptors" value="${read.jdbcInterceptors}"/>
+        <property name="username" value="${read.username}"/>
+        <property name="password" value="${read.password}"/>
+        <property name="driverClassName" value="${read.driverClassName}"/>
+        <!--<property name="zeroDateTimeBehavior" value="${read.zeroDateTimeBehavior}" />-->
+        <property name="url" value="${read.url}"/>
+    </bean>
+
+    <bean id="sqlSessionFactoryJobRead" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dsJobRead"/>
+        <property name="configLocation" value="classpath:mybatis-job-read.xml"/>
+    </bean>
+
+    <!-- 配置扫描器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.facebank.mmc.mapper.read"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryJobRead"/>
+    </bean>
+
+    <!-- 写数据源配置 -->
+    <bean id="dsJobWrite" class="org.apache.tomcat.jdbc.pool.DataSource"
+          destroy-method="close">
+        <property name="testWhileIdle" value="${write.testWhileIdle}" />
+        <property name="testOnBorrow" value="${write.testOnBorrow}" />
+        <property name="testOnReturn" value="${write.testOnReturn}" />
+        <property name="validationQuery" value="${write.validationQuery}" />
+        <property name="validationInterval" value="${write.validationInterval}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${write.timeBetweenEvictionRunsMillis}" />
+        <property name="maxActive" value="${write.maxActive}" />
+        <property name="minIdle" value="${write.minIdle}" />
+        <property name="maxWait" value="${write.maxWait}" />
+        <property name="initialSize" value="${write.initialSize}" />
+        <property name="removeAbandonedTimeout" value="${write.removeAbandonedTimeout}" />
+        <property name="removeAbandoned" value="${write.removeAbandoned}" />
+        <property name="logAbandoned" value="${write.logAbandoned}" />
+        <property name="minEvictableIdleTimeMillis" value="${write.minEvictableIdleTimeMillis}" />
+        <property name="jmxEnabled" value="${write.jmxEnabled}" />
+        <property name="fairQueue" value="${write.fairQueue}" />
+        <property name="jdbcInterceptors" value="${write.jdbcInterceptors}" />
+        <property name="username" value="${write.username}"/>
+        <property name="password" value="${write.password}"/>
+        <property name="driverClassName" value="${write.driverClassName}"/>
+        <!--<property name="zeroDateTimeBehavior" value="${write.zeroDateTimeBehavior}" />-->
+        <property name="url" value="${write.url}"/>
+    </bean>
+
+    <!-- 事务 -->
+    <bean id="transactionManagerJobWrite" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dsJobWrite"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManagerJobWrite"/>
+    <!--<bean id="taskScheduler" class="org.springframework.scheduling.TaskScheduler"></bean>-->
+    <bean id="sqlSessionFactoryJobWrite" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dsJobWrite"/>
+        <property name="configLocation" value="classpath:mybatis-job-write.xml"/>
+        <!--<property name="typeAliasesPackage" value="cn.facebank.model"/>-->
+    </bean>
+
+    <!-- 写不能用自动扫描，自动扫描事务不起作用 -->
+    <bean id="mmcWriteMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.facebank.mmc.mapper.write.MmcWriteMapper"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryJobWrite"></property>
+    </bean>
+
+    <bean id="mmcReadMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="cn.facebank.mmc.mapper.read.MmcReadMapper"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryJobRead"></property>
+    </bean>
+</beans>
