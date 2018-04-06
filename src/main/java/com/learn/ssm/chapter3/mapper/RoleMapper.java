@@ -11,4 +11,8 @@ import java.util.Map;
 public interface RoleMapper {
 
     public Role getRole(Long id);
+    public int insertRole(Role role);
+    public int deleteRole(Long id);
+    public int updateRole(Role role);
+    public List<Role> findRoles(String roleName);
 }

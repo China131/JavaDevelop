@@ -2,7 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.learn.ssm.chapter3.mapper.RoleMapper">
 
-    <select id="getRole" resultType="role">
-        SELECT * FROM role where id = #{id}
+    <resultMap id="roleMapper" type="role">
+        <result property="id" column="id"/>
+        <result property="roleName" column="role_name"  typeHandler="com.learn.ssm.chapter3.typeHandler.MyTypeHandler"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+    <select id="getRole" resultMap="roleMapper">
+        SELECT id ,role_name ,note FROM t_role where id = #{id}
+    </select>
+
+    <insert id="insertRole" parameterType="role">
+        INSERT into t_role(role_name,note)VALUES (#{roleName},#{note})
+    </insert>
+
+    <delete id="deleteRole" parameterType="long">
+        DELETE * from t_role where id = #{id}
+    </delete>
+
+    <update id="updateRole" parameterType="role">
+        UPDATE t_role
+          set role_name = #{roleName},note = #{note}
+        where id = #{id}
+    </update>
+
+    <select id="findRoles" parameterType="string" resultType="role">
+        SELECT id,role_name as roleName,note
+        FROM t_role
+        where role_name like concat('%',#{roleName,jdbcType=VARCHAR,javaType=string},'%')
+
     </select>
 </mapper>
