@@ -32,6 +32,10 @@
         <property name="DB2" value="db2"/>
     </databaseIdProvider>
     <mappers>
+        <!--以下几种方式引入mapper均可-->
         <mapper resource="com/learn/ssm/chapter3/mapper/RoleMapper.xml"></mapper>
+        <!--<package name="com.learn.ssm.chapter3.mapper"/>-->
+        <!--<mapper class="com.learn.ssm.chapter3.mapper.RoleMapper"/>-->
+        <!--<mapper url="file:///var/mappers/com/learn/ssm/chapter3/mapper/RoleMapper.xml" />-->
     </mappers>
 </configuration>
