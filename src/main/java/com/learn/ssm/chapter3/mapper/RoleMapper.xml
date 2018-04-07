@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.learn.ssm.chapter3.mapper.RoleMapper">
 
-    <resultMap id="roleMapper" type="role">
+    <resultMap id="roleMapper" type="role" >
         <result property="id" column="id"/>
         <result property="roleName" column="role_name"  typeHandler="com.learn.ssm.chapter3.typeHandler.MyTypeHandler"/>
         <result property="role" column="role"/>
     </resultMap>
 
-    <select id="getRole" resultMap="roleMapper">
+    <select id="getRole" resultMap="roleMapper" databaseId="mysql">
         SELECT id ,role_name ,note FROM t_role where id = #{id}
     </select>
 

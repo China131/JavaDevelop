@@ -17,8 +17,11 @@
     </typeHandlers>
     <environments default="development">
         <environment id="development">
-            <transactionManager type="JDBC"></transactionManager>
+            <transactionManager type="com.learn.ssm.chapter3.transaction.MyTransactionFactory"></transactionManager>
             <dataSource type="POOLED">
+                <!--UNPOOLED 采用非数据库池的管理方式 每次请求都会带开一个新的数据库连接 所以创建会比较慢 在一些对性能没有很高要求的场合可以使用它 对有些数据库而言 使用连接池并不重要 那么他也是一个比较理想的选择-->
+                <!--POOLED 开始会有一些控制 并且已经连接好的数据库连接 所以请求时 无须再建立和验证 省去了创建新的连接实例时所必需的初始化和认证时间 他还控制最大连接数 避免过多的链接导致系统瓶颈-->
+                <!--JNDI数据源JNDI的实现是为了能在如EJB或应用服务器这类容器中使用 容器可以集中或在外部配置数据源 然后放置一个JNDI上下文的引用-->
                 <property name="driver" value="${database.driver}"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/ssm"/>
                 <property name="username" value="root"/>
