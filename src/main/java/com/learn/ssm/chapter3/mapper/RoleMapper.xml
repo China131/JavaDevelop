@@ -4,6 +4,7 @@
 
     <resultMap id="roleMapper" type="role" >
         <result property="id" column="id"/>
+        <!--没有注解时 必须显示指定类型转换-->
         <result property="roleName" column="role_name"  typeHandler="com.learn.ssm.chapter3.typeHandler.MyTypeHandler"/>
         <result property="role" column="role"/>
     </resultMap>
@@ -29,6 +30,7 @@
     <select id="findRoles" parameterType="string" resultType="role">
         SELECT id,role_name as roleName,note
         FROM t_role
+--        存在注解时 直接隐式的使用注解指定的类型
         where role_name like concat('%',#{roleName,jdbcType=VARCHAR,javaType=string},'%')
 
     </select>
