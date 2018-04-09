@@ -17,6 +17,7 @@ import java.sql.SQLException;
 /**
  * Created by jianhao on 2018/4/6.
  */
+//可以有注解  存在注解时直接替代系统默认的String类型 
 @MappedTypes(String.class)
 @MappedJdbcTypes(JdbcType.VARCHAR)
 public class MyTypeHandler implements TypeHandler<String>{
