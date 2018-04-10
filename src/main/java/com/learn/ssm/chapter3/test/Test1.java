@@ -53,9 +53,9 @@ public class Test1 {
         }catch (Exception ex){
             ex.printStackTrace();
         }finally {
-            if (sqlSession != null){
-                sqlSession.close();
-            }
+//            if (sqlSession != null){
+//                sqlSession.close();
+//            }
         }
 
         System.out.println("");
