@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 /**
  * Created by jianhao on 2018/4/7.
+ * 自定义事务管理器
  */
 public class MyTransaction extends JdbcTransaction implements Transaction {
     public MyTransaction(DataSource dataSource, TransactionIsolationLevel desiredLevel, boolean desiredAutoCommit){
@@ -25,23 +26,31 @@ public class MyTransaction extends JdbcTransaction implements Transaction {
         return super.getConnection();
     }
 
+    //提交
     @Override
     public void commit() throws SQLException {
+        System.out.println("sql提交");
         super.commit();
     }
 
+    //回滚
     @Override
     public void rollback() throws SQLException {
+        System.out.println("sql回滚");
         super.rollback();
     }
 
+    //关闭连接
     @Override
     public void close() throws SQLException {
+        System.out.println("sql关闭");
         super.close();
     }
 
+    //获取超时时间
     @Override
     public Integer getTimeout() throws SQLException {
+        System.out.println("sql获取超时时间");
         return super.getTimeout();
     }
 }
