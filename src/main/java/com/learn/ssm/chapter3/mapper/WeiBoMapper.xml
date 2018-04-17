@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learn.ssm.chapter3.mapper.WeiBoMapper">
+
+
+
+<select id="selectTest" resultType="com.learn.ssm.chapter3.pojo.WeiBoModel">
+    select * from app_test_test;
+</select>
+    <select id="selectPublishCount" resultType="long">
+        SELECT COUNT(1) FROM app_test_test where IR_UID = #{id}
+    </select>
+    <select id="selectResult" resultType="com.learn.ssm.chapter3.pojo.WeiBoResult">
+        select * from app_result;
+    </select>
+    <insert id="initResult" parameterType="com.learn.ssm.chapter3.pojo.WeiBoModel">
+        insert into app_result (uid,nickName) VALUES (#{uid},#{nickName})
+    </insert>
+    <select id="selectOriginPublishCount" resultType="long">
+        SELECT count(1) from app_test_test where IR_UID = #{id}
+    </select>
+    <select id="selectRedirectPublishCount" resultType="long">
+        SELECT count(1) from app_test_test where IR_UID = #{id}
+    </select>
+
+    <select id="selectCommendAllCount" resultType="long">
+        select sum(IR_COMMTCOUNT)  from app_test_test where IR_UID = #{id};
+    </select>
+
+    <select id="selectFavoriteCount" resultType="long">
+        select sum(IR_APPROVE_COUNT)  from app_test_test where IR_UID = #{id};
+    </select>
+
+    <select id="selectRedirectCount" resultType="long">
+        select sum(IR_RTTCOUNT)  from app_test_test where IR_UID = #{id};
+    </select>
+
+    <update id="updateResult" parameterType="com.learn.ssm.chapter3.pojo.WeiBoResult">
+        UPDATE  app_result
+        set publicCount =  #{publicCount},
+            commendCount=#{commendCount},
+            commendAllCount=#{commendAllCount},
+            redirectCount=#{redirectCount},
+            favorite=#{favorite},
+            favoriteAllCount=#{favoriteAllCount},
+            redirectAllCount=#{redirectAllCount}
+        WHERE uid = #{uid}
+    </update>
+
+    <insert id="insertIntoCache1" parameterType="com.learn.ssm.chapter3.pojo.WeiBoModel">
+        INSERT INTO app_test_chche1 (IR_SCREEN_NAME,
+  IR_STATUS_CONTENT,
+      IR_CREATED_AT,
+      IR_URLNAME,
+      IR_MID,
+      IR_UID,
+      IR_VIA,
+      IR_RTTCOUNT,
+      IR_COMMTCOUNT,
+      IR_APPROVE_COUNT,
+      IR_RETWEETED_RTTCOUNT,
+      IR_RETWEETED_COMMTCOUNT,
+      IR_RETWEETED_APPROVE_COUNT,
+      DBNAME,
+      IR_SITENAME,
+      IR_GROUPNAME,
+      IR_CHANNEL,
+      IR_ROOT,
+      IR_ROOTURL,
+      IR_REALURL,
+      IR_LASTTIME,
+      IR_IMAGEFLAG,
+      IR_URLSIZE,
+      IR_PKEY,
+      IR_HKEY)
+      VALUES
+      (#{IR_SCREEN_NAME},
+      #{IR_STATUS_CONTENT},
+      #{IR_CREATED_AT},
+      #{IR_URLNAME},
+      #{IR_MID},
+      #{IR_UID},
+      #{IR_VIA},
+      #{IR_RTTCOUNT},
+      #{IR_COMMTCOUNT},
+      #{IR_APPROVE_COUNT},
+      #{IR_RETWEETED_RTTCOUNT},
+      #{IR_RETWEETED_COMMTCOUNT},
+      #{IR_RETWEETED_APPROVE_COUNT},
+      #{DBNAME},
+      #{IR_SITENAME},
+      #{IR_GROUPNAME},
+      #{IR_CHANNEL},
+      #{IR_ROOT},
+      #{IR_ROOTURL},
+      #{IR_REALURL},
+      #{IR_LASTTIME},
+      #{IR_IMAGEFLAG},
+      #{IR_URLSIZE},
+      #{IR_PKEY},
+      #{IR_HKEY})
+    </insert>
+
+    <insert id="insertIntoCache2" parameterType="com.learn.ssm.chapter3.pojo.WeiBoModel">
+        INSERT INTO app_test_chche2 (IR_SCREEN_NAME,
+        IR_STATUS_CONTENT,
+        IR_CREATED_AT,
+        IR_URLNAME,
+        IR_MID,
+        IR_UID,
+        IR_VIA,
+        IR_RTTCOUNT,
+        IR_COMMTCOUNT,
+        IR_APPROVE_COUNT,
+        IR_RETWEETED_RTTCOUNT,
+        IR_RETWEETED_COMMTCOUNT,
+        IR_RETWEETED_APPROVE_COUNT,
+        DBNAME,
+        IR_SITENAME,
+        IR_GROUPNAME,
+        IR_CHANNEL,
+        IR_ROOT,
+        IR_ROOTURL,
+        IR_REALURL,
+        IR_LASTTIME,
+        IR_IMAGEFLAG,
+        IR_URLSIZE,
+        IR_PKEY,
+        IR_HKEY)
+        VALUES
+        (#{IR_SCREEN_NAME},
+        #{IR_STATUS_CONTENT},
+        #{IR_CREATED_AT},
+        #{IR_URLNAME},
+        #{IR_MID},
+        #{IR_UID},
+        #{IR_VIA},
+        #{IR_RTTCOUNT},
+        #{IR_COMMTCOUNT},
+        #{IR_APPROVE_COUNT},
+        #{IR_RETWEETED_RTTCOUNT},
+        #{IR_RETWEETED_COMMTCOUNT},
+        #{IR_RETWEETED_APPROVE_COUNT},
+        #{DBNAME},
+        #{IR_SITENAME},
+        #{IR_GROUPNAME},
+        #{IR_CHANNEL},
+        #{IR_ROOT},
+        #{IR_ROOTURL},
+        #{IR_REALURL},
+        #{IR_LASTTIME},
+        #{IR_IMAGEFLAG},
+        #{IR_URLSIZE},
+        #{IR_PKEY},
+        #{IR_HKEY})
+    </insert>
+</mapper>
