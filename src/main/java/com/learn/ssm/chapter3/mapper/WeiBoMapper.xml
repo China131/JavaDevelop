@@ -17,7 +17,7 @@
         insert into app_result (uid,nickName) VALUES (#{uid},#{nickName})
     </insert>
     <select id="selectOriginPublishCount" resultType="long">
-        SELECT count(1) from app_test_test where IR_UID = #{id}
+        SELECT count(1) from app_test_test where IR_UID = #{id} and IS_ORIGIN = '1'
     </select>
     <select id="selectRedirectPublishCount" resultType="long">
         SELECT count(1) from app_test_test where IR_UID = #{id}
@@ -43,7 +43,8 @@
             redirectCount=#{redirectCount},
             favorite=#{favorite},
             favoriteAllCount=#{favoriteAllCount},
-            redirectAllCount=#{redirectAllCount}
+            redirectAllCount=#{redirectAllCount},
+            originPublicCount=#{originPublicCount}
         WHERE uid = #{uid}
     </update>
 
@@ -154,4 +155,26 @@
         #{IR_PKEY},
         #{IR_HKEY})
     </insert>
+
+    <select id="selectAllIdCard" resultType="com.learn.ssm.chapter3.pojo.FourInfo">
+        SELECT * from fourinfo;
+    </select>
+
+    <select id="selectAllTeKun" resultType="com.learn.ssm.chapter3.pojo.FourInfo">
+        SELECT * from tekuninfo;
+    </select>
+
+    <select id="selectAllDiBao" resultType="com.learn.ssm.chapter3.pojo.FourInfo">
+        SELECT * from dibaoinfo;
+    </select>
+    <update id="updateDiBaoISIN" parameterType="com.learn.ssm.chapter3.pojo.FourInfo">
+        UPDATE dibaoinfo set isInForInfo = #{isInForInfo} where idCard = #{idCard}
+    </update>
+    <update id="updateTeKunISIN" parameterType="com.learn.ssm.chapter3.pojo.FourInfo">
+        UPDATE tekuninfo set isInForInfo = #{isInForInfo} where idCard = #{idCard}
+    </update>
+
+    <select id="selectFourResult" resultType="com.learn.ssm.chapter3.pojo.FourInfo">
+        SELECT * from fourinfo where idCard = #{idCard};
+    </select>
 </mapper>

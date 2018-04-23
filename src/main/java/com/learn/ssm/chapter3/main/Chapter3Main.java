@@ -3,6 +3,7 @@ package com.learn.ssm.chapter3.main;
 
 import com.learn.ssm.chapter3.mapper.RoleMapper;
 import com.learn.ssm.chapter3.mapper.WeiBoMapper;
+import com.learn.ssm.chapter3.pojo.FourInfo;
 import com.learn.ssm.chapter3.pojo.Role;
 import com.learn.ssm.chapter3.pojo.WeiBoModel;
 import com.learn.ssm.chapter3.pojo.WeiBoResult;
@@ -25,12 +26,54 @@ public class Chapter3Main {
         //发布微博数量
 //          getPublicCOunt();
 //        getAllCommendCount();
+//        getOriginCOunt();
         //获取平均微博转发数量
 //        getAllRedirectCount();
         //获取平均微博点赞数量
 //        getAllFavoriteCount();
-        getCacheData();
+//        getCacheData();
+//        tekundibao();
     }
+
+
+    public void tekundibao(){
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = SqlSessionFactoryUtils.openSqlSession();
+            WeiBoMapper roleMapper = sqlSession.getMapper(WeiBoMapper.class);
+            List<FourInfo>diBaolist = roleMapper.selectAllDiBao();
+            List<FourInfo>teKunList = roleMapper.selectAllTeKun();
+
+            for (FourInfo four:diBaolist) {
+                List<FourInfo> retList = roleMapper.selectFourResult(four);
+                if (retList!=null && retList.size() >= 1){
+                    four.setIsInForInfo("-------------");
+                    roleMapper.updateDiBaoISIN(four);
+                    sqlSession.commit();
+                }
+            }
+
+            for (FourInfo four:teKunList) {
+                List<FourInfo> retList = roleMapper.selectFourResult(four);
+                if (retList!=null && retList.size() >= 1){
+                    four.setIsInForInfo("-------------");
+
+                    roleMapper.updateTeKunISIN(four);
+                    sqlSession.commit();
+                }
+            }
+
+
+
+        }catch (Exception exps){
+            System.out.println("");
+        }finally {
+            if (sqlSession != null){
+                sqlSession.close();
+            }
+        }
+    }
+
 
     public void getCacheData(){
         SqlSession sqlSession = null;
@@ -191,6 +234,31 @@ public class Chapter3Main {
                 try {
                     long size = roleMapper.selectPublishCount(model.getUid());
                     model.setPublicCount(size+"");
+                    roleMapper.updateResult(model);
+                }catch (Exception exp){
+                    System.out.println("插入失败");
+                }
+                sqlSession.commit();
+                System.out.println("success");
+            }
+            System.out.println("");
+
+        }finally {
+            if (sqlSession != null){
+                sqlSession.close();
+            }
+        }
+    }
+    public void getOriginCOunt(){
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = SqlSessionFactoryUtils.openSqlSession();
+            WeiBoMapper roleMapper = sqlSession.getMapper(WeiBoMapper.class);
+            List<WeiBoResult>list = roleMapper.selectResult();
+            for (WeiBoResult model:list){
+                try {
+                    long size = roleMapper.selectOriginPublishCount(model.getUid());
+                    model.setOriginPublicCount(size);
                     roleMapper.updateResult(model);
                 }catch (Exception exp){
                     System.out.println("插入失败");

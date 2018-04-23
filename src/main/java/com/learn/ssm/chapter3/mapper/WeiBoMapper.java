@@ -1,5 +1,6 @@
 package com.learn.ssm.chapter3.mapper;
 
+import com.learn.ssm.chapter3.pojo.FourInfo;
 import com.learn.ssm.chapter3.pojo.WeiBoModel;
 import com.learn.ssm.chapter3.pojo.WeiBoResult;
 import org.apache.ibatis.annotations.Param;
@@ -27,6 +28,14 @@ public interface WeiBoMapper {
    public int initResult(WeiBoResult model);
    public int updateResult(WeiBoResult model);
    public int insertIntoCache1(WeiBoModel model);
-    public int insertIntoCache2(WeiBoModel model);
+   public int insertIntoCache2(WeiBoModel model);
+
+   public List<FourInfo> selectFourResult(FourInfo fourInfo);
+    public List<FourInfo> selectAllIdCard();
+    public List<FourInfo>  selectAllTeKun();
+    public List<FourInfo>  selectAllDiBao();
+    public int   updateDiBaoISIN(FourInfo isInForInfo);
+    public int   updateTeKunISIN(FourInfo isInForInfo);
+
 
 }
