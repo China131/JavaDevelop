@@ -177,4 +177,16 @@
     <select id="selectFourResult" resultType="com.learn.ssm.chapter3.pojo.FourInfo">
         SELECT * from fourinfo where idCard = #{idCard};
     </select>
+    <select id="selectAllComment" resultType="map">
+        SELECT * from jianhao_test.coment;
+    </select>
+    <select id="selectContentByNameAndURL" resultType="string">
+        SELECT  IR_STATUS_CONTENT from jianhao_test.app_test_chche2 where IR_SCREEN_NAME = #{name} AND IR_URLNAME = #{url};
+    </select>
+    <update id="updateComent">
+        UPDATE jianhao_test.coment set content = #{content} where IR_SCREEN_NAME = #{name} and IR_COMMENT = #{url};
+    </update>
+    <select id="selectContentById" resultType="string">
+        SELECT content from jianhao_test.coment WHERE  id = #{id};
+    </select>
 </mapper>

@@ -6,6 +6,7 @@ import com.learn.ssm.chapter3.pojo.WeiBoResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jianhao on 2018/4/16.
@@ -36,6 +37,8 @@ public interface WeiBoMapper {
     public List<FourInfo>  selectAllDiBao();
     public int   updateDiBaoISIN(FourInfo isInForInfo);
     public int   updateTeKunISIN(FourInfo isInForInfo);
-
-
+    public List<Map> selectAllComment();
+    public String selectContentByNameAndURL(@Param("name") String name,@Param("url") String url);
+    public void updateComent(@Param("name") String name,@Param("url") String url,@Param("content") String content);
+    public String selectContentById(@Param("id") Long id);
 }

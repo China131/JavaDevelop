@@ -8,12 +8,15 @@ import com.learn.ssm.chapter3.pojo.Role;
 import com.learn.ssm.chapter3.pojo.WeiBoModel;
 import com.learn.ssm.chapter3.pojo.WeiBoResult;
 import com.learn.ssm.chapter3.utils.SqlSessionFactoryUtils;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -33,6 +36,7 @@ public class Chapter3Main {
 //        getAllFavoriteCount();
 //        getCacheData();
 //        tekundibao();
+        insertComment();
     }
 
 
@@ -64,6 +68,49 @@ public class Chapter3Main {
             }
 
 
+
+        }catch (Exception exps){
+            System.out.println("");
+        }finally {
+            if (sqlSession != null){
+                sqlSession.close();
+            }
+        }
+    }
+
+    //insert comment
+    public void insertComment(){
+        SqlSession sqlSession = null;
+        try {
+            sqlSession = SqlSessionFactoryUtils.openSqlSession();
+            WeiBoMapper roleMapper = sqlSession.getMapper(WeiBoMapper.class);
+            List<Map>list = roleMapper.selectAllComment();
+            long size = list.size();
+            System.out.printf("size = "+size);
+            int  i = 0;
+            for (Map map:list
+                 ) {
+                String urlName = map.get("IR_URLNAME").toString();
+                System.out.printf("length === "+urlName.length());
+//                String name = map.get("IR_SCREEN_NAME").toString();
+//                Long id = (Long) map.get("id");
+//                String url = map.get("IR_COMMENT").toString();
+//                String contents = roleMapper.selectContentById(id);
+//                String content = roleMapper.selectContentByNameAndURL(name,url);
+//                System.out.println("content = "+content);
+//                System.out.println("i == "+i);
+//                if (!StringUtils.isEmpty(content) && StringUtils.isEmpty(contents)){
+//                    roleMapper.updateComent(name,url,content);
+//                    sqlSession.commit();
+//                }
+//                i ++ ;
+
+            }
+
+            sqlSession.commit();
+
+
+            System.out.printf("");
 
         }catch (Exception exps){
             System.out.println("");
